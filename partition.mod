@@ -44,8 +44,11 @@ ConstraintLinearization3{i in 1..N, j in 1..N, p in 1..N}:
 ConstraintLinearization4{i in 1..N, j in 1..N, p in 1..N}:
     edge_in_partition[i,j,p] >= 0;
 
-ConstraintSymmetryBreak:
-    node_in_partition[1,1] = 1;
+#ConstraintSymmetryBreak:
+#    node_in_partition[1,1] = 1;
+
+ConstraintSymmetryBreakStrong{p in 1..N}:
+    sum{i in p+1..N} node_in_partition[i,p] = 0;
 
 solve;
 
