@@ -44,11 +44,11 @@ ConstraintLinearization3{i in 1..N, j in 1..N, p in 1..N}:
 ConstraintLinearization4{i in 1..N, j in 1..N, p in 1..N}:
     edge_in_partition[i,j,p] >= 0;
 
-#ConstraintSymmetryBreak:
-#    node_in_partition[1,1] = 1;
+ConstraintSymmetryBreak:
+    node_in_partition[1,1] = 1;
 
-ConstraintSymmetryBreakStrong{p in 1..N}:
-    sum{i in p+1..N} node_in_partition[i,p] = 0;
+#ConstraintSymmetryBreakStrong{p in 1..N}:
+#    sum{i in p+1..N} node_in_partition[i,p] = 0;
 
 solve;
 
@@ -59,5 +59,11 @@ printf "Traffic inter total : %i\n",
          - 1/2 * Traffic[i,j] * sum{p in 1..N} edge_in_partition[i,j,p]);
 printf{p in 1..N, i in 1..N}
     "Partition %i noeud %i : %i\n", p, i, node_in_partition[i,p];
+printf{p in 1..N}
+    "Partition %i trafic : %i\n", p, 
+    (sum{i in 1..N, j in 1..N}
+        (Traffic[i,j] * node_in_partition[i,p]))
+    - 1/2 * (sum{i in 1..N, j in 1..N}
+        (Traffic[i,j] * edge_in_partition[i,j,p]));
 
 end;

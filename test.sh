@@ -1,3 +1,5 @@
 #!/bin/sh
 
-glpsol --model partition.mod --data instances/instance1.dat
+INSTANCE=$1
+
+glpsol --model partition.mod --data $INSTANCE 
